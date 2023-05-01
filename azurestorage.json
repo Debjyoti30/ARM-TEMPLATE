@@ -1,0 +1,58 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "apiProfile": "2019-03-01-hybrid",
+    "functions": [],
+    "parameters": {
+        "storageAccountType": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_GRS"
+            ],
+            "defaultValue": "Standard_LRS",
+            "metadata": {
+                "description": "this is a storage account sku type"
+            }
+        },
+        "storageAccountName": {
+            "defaultValue": "testazurestoragefeli12",
+            "type": "string",
+            "metadata": {
+                "description": "name of storage account"
+            }
+        }
+
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[parameters('storageAccountName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+               "dept": "cloud"
+            },
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+                
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true,
+                "allowBlobPublicAccess":true
+
+                
+            }
+
+
+        }
+    ],
+    "outputs": {
+        "storageBlobAccess": {
+        "type": "string",
+        "value": "[reference('testazurestoragefeli12').provisioningState]"
+    }
+    }
+}
